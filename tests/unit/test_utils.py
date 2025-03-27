@@ -2,6 +2,7 @@ from home_automation.app.utils import count_lines, rotate_log
 
 TEST_LOG_FILE_PATH = "tests/assets/example.log"
 
+
 def test_count_lines():
     assert count_lines(TEST_LOG_FILE_PATH) == 19
 
@@ -26,5 +27,3 @@ def test_rotate_log(tmp_path):
     assert rotated_file.name.endswith(".log")
     # Ensure that it contains the original content
     assert rotated_file.read_text() == "Sample log content"
-
-

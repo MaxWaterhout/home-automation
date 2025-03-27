@@ -1,8 +1,14 @@
 from PyTado.interface import Tado
-from home_automation.app import utils, settings 
-import time 
+from home_automation.app import utils, settings
+import time
 
-def handle_presence(tado_instance: Tado, devices_home: list, last_message_container: dict, home_state: str= "HOME"):
+
+def handle_presence(
+    tado_instance: Tado,
+    devices_home: list,
+    last_message_container: dict,
+    home_state: str = "HOME",
+):
     """
     Handle presence logic: switch between HOME and AWAY modes based on detected devices.
 
@@ -12,20 +18,29 @@ def handle_presence(tado_instance: Tado, devices_home: list, last_message_contai
         home_state (str): The current home state ("HOME" or "AWAY").
         last_message_container (dict): Dictionary holding the last logged message.
     """
-    
+
     devices_detected = bool(devices_home)
     is_home = home_state == "HOME"
     is_away = home_state == "AWAY"
 
     if not devices_detected and is_home:
-        utils.print_log("No devices at home but state is HOME — switching to AWAY mode.", last_message_container)
+        utils.print_log(
+            "No devices at home but state is HOME — switching to AWAY mode.",
+            last_message_container,
+        )
         tado_instance.set_away()
     elif devices_detected and is_away:
-        utils.print_log(f"Devices {devices_home} detected at home — switching to HOME mode.", last_message_container)
+        utils.print_log(
+            f"Devices {devices_home} detected at home — switching to HOME mode.",
+            last_message_container,
+        )
         tado_instance.set_home()
 
+    utils.print_log(
+        "Monitoring started. Waiting for location or open window changes.",
+        last_message_container,
+    )
 
-    utils.print_log("Monitoring started. Waiting for location or open window changes.", last_message_container)
 
 def monitor_home(tado_instance: Tado, last_message_container: dict):
     """
@@ -45,7 +60,12 @@ def monitor_home(tado_instance: Tado, last_message_container: dict):
             and device["location"]["atHome"]
         ]
 
-        handle_presence(tado_instance=tado_instance, devices_home=devices_home, last_message_container=last_message_container, home_state=home_state)
+        handle_presence(
+            tado_instance=tado_instance,
+            devices_home=devices_home,
+            last_message_container=last_message_container,
+            home_state=home_state,
+        )
 
     except Exception as e:
         utils.print_log(
