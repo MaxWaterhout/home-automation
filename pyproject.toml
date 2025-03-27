@@ -6,13 +6,25 @@ authors = [
     {name = "MaxWaterhout",email = "max.waterhout@hotmail.nl"}
 ]
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<4.0"
 dependencies = [
+    "ipykernel (>=6.29.5,<7.0.0)",
+    "python-dotenv (>=1.0.1,<2.0.0)",
+    "pydantic (>=2.10.6,<3.0.0)",
+    "pydantic-settings (>=2.8.1,<3.0.0)",
+    "load-dotenv (>=0.1.0,<0.2.0)",
+    "python-tado (>=0.19.1,<0.20.0)",
 ]
 
 [tool.poetry]
-packages = [{include = "home_automation", from = "src"}]
+packages = [
+    {include = "home_automation", from = "src"},
+    {include = "PyTado", from = "PyTado"}  
+]
 
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
